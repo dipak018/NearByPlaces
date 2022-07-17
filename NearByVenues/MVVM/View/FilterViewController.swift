@@ -29,8 +29,17 @@ class FilterViewController: UIViewController {
     func setNavigationBar() {
         self.navigationController?.navigationBar.tintColor = .white
         self.title = "Filter"
+        
+        let applySettingButtonItem = UIBarButtonItem(title: "Apply", style: .plain, target: self, action: #selector(applyFilterSettings))
+        navigationItem.rightBarButtonItem = applySettingButtonItem
+
     }
         
+    @objc func applyFilterSettings() {
+        self.delegate.filterValueChanged(radius: Int(slider.value))
+        self.navigationController?.popViewController(animated: true)
+    }
+    
     func setFilter() {
         self.slider.minimumValue = 1000
         self.slider.maximumValue = 100000
@@ -46,9 +55,4 @@ class FilterViewController: UIViewController {
         currentValueLabel.text = "\(currentValue)"
     }
     
-    override func didMove(toParent parent: UIViewController?) {
-        if parent == nil {
-            self.delegate.filterValueChanged(radius: Int(slider.value))
-        }
-    }
 }
